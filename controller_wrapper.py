@@ -32,9 +32,9 @@ class Controller_Gym(gym.Env):
         self.num_envs = 1
         self.num_envs_per_sub_batch = 1
         self.total_pips = []
-        self.player = self.env.player
-        self.pips = self.env.pips
-        self.starter = 0
+        #self.player = self.env.player
+        #self.pips = self.env.pips
+        #self.starter = 0
 
         # forward or backward in each dimension
         #self.action_space = spaces.Discrete(3)
@@ -73,18 +73,18 @@ class Controller_Gym(gym.Env):
         #self.state = self.env.generate_number()
         #self.env.display()
         #print(action)
-        action = self.keyboard_logger.actions
-
+        action = self.keyboard_logger.actions()
+        #action = 1
         #self.placement = self.env.placement
-        self.next_state, self.reward, self.done, self.pips = self.env.step(action)
+        self.next_state, self.reward, self.done, info = self.env.step(action)
         #self.info = 0
         #print(self.reward)
         self.info = { 'pnl':1, 'nav':1, 'costs':1 }
         #self.next_state = self.next_state.tolist()
-        self.total_pips.append(self.pips)
+        #self.total_pips.append(self.pips)
         if self.done:
             pass
-        return self.next_state, self.reward, self.done, self.info
+        return self.next_state, self.reward, self.done, info
 
     def reset(self):
         self.state = self.env.reset()
@@ -107,5 +107,3 @@ class Controller_Gym(gym.Env):
 
         return 
 
-
-#test = Template_Gym()
