@@ -7,7 +7,7 @@ class KeyLogger():
         self.moose = "9"
         self.listener = keyboard.Listener(on_press=self.on_press,on_release=self.on_release)
         self.listener.start()
-        self.moves = [False, False]
+        self.moves = [False, False, False, False, False]
         self.action = 0
     def on_press(self, key):
         try:
@@ -19,6 +19,13 @@ class KeyLogger():
                 self.moves[1] = True
             if key.char == '0':
                 self.moves[0] = True
+            if key.char == '2':
+                self.moves[2] = True
+            if key.char == '3':
+                self.moves[3] = True
+            if key.char == '4':
+                self.moves[4] = True
+                
         
         except AttributeError:
             print('special key {0} pressed'.format(
@@ -34,12 +41,27 @@ class KeyLogger():
             self.moves[0] = False
         if key.char == "1":
             self.moves[1] = False
+        if key.char == "2":
+            self.moves[2] = False
+        if key.char == "3":
+            self.moves[3] = False
+        if key.char == "4":
+            self.moves[4] = False
         if key == keyboard.Key.esc:
             # Stop listener
             return False
     def actions(self):
-        if self.moves[1] == True:
+        if self.moves[3] == True and self.moves[2] == True:
+            self.action = 4  
+        elif self.moves[1] == True:
             self.action = 1
+        elif self.moves[2] == True:
+            self.action = 2
+        elif self.moves[3] == True:
+            self.action = 3
+        elif self.moves[3] == True:
+            self.action = 3
+        
 
         else:
             self.action = 0
@@ -68,34 +90,5 @@ class KeyboardController():
 
 
 
-# Collect events until released
-#with keyboard.Listener(
-        #on_press=on_press,
-        #on_release=on_release) as listener:
-    #listener.join()
-
-# ...or, in a non-blocking fashion:
-#listener = keyboard.Listener(
-    #on_press=on_press,
-    #on_release=on_release)
-#listener.start()
-#listener = keyboard.Listener(on_press=on_press,on_release=on_release)
-#listener.start()
-test = KeyLogger()
-test
-while True:
-    #with keyboard.Listener(
-        #on_press=on_pressjjj) as listener:
-        #on_release=on_release) as listener:
-        #key = listener.join()
-    #print(test.moose)
-    #print(test.moves)
-    if test.moves[0] == True and test.moves[1] == True:
-        print('Willie is sexy')
-    #print("moose")
-    #print(moose)
-    #input('lalala')
-    
-    
     
     
