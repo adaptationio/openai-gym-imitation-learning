@@ -3,28 +3,24 @@ from pynput.keyboard import Key, Controller
 moves =[False, False]
 
 class KeyLogger():
-    def __init__(self):
+    def __init__(self, listener=True, action_space=5, keys=['0','1','2','3','4']):
         self.moose = "9"
-        self.listener = keyboard.Listener(on_press=self.on_press,on_release=self.on_release)
-        self.listener.start()
+        self.keys = keys
+        self.actions = [False] * action_space
         self.moves = [False, False, False, False, False]
         self.action = 0
+        if listener:
+            self.listener_start()
     def on_press(self, key):
         try:
             print('alphanumeric key {0} pressed'.format(
                 key.char))
             self.moose = key
             print(key)
-            if key.char == '1':
-                self.moves[1] = True
-            if key.char == '0':
-                self.moves[0] = True
-            if key.char == '2':
-                self.moves[2] = True
-            if key.char == '3':
-                self.moves[3] = True
-            if key.char == '4':
-                self.moves[4] = True
+            for i in range(len(self.keys)):
+                if key.char == str(self.keys[i]):
+                    self.actions[i] = True
+            
                 
         
         except AttributeError:
@@ -37,36 +33,39 @@ class KeyLogger():
             key))
         #self.moose = ''
         moose = key
-        if key.char == "0":
-            self.moves[0] = False
-        if key.char == "1":
-            self.moves[1] = False
-        if key.char == "2":
-            self.moves[2] = False
-        if key.char == "3":
-            self.moves[3] = False
-        if key.char == "4":
-            self.moves[4] = False
+        for i in range(len(self.keys)):
+                if key.char == str(self.keys[i]):
+                    self.actions[i] = False
+    
         if key == keyboard.Key.esc:
             # Stop listener
             return False
 
-    def actions(self):
-        if self.moves[3] == True and self.moves[2] == True:
+    def action_step(self):
+        if self.actions[3] == True and self.actions[2] == True:
             self.action = 4  
-        elif self.moves[1] == True:
+        elif self.actions[1] == True:
             self.action = 1
-        elif self.moves[2] == True:
+        elif self.actions[2] == True:
             self.action = 2
-        elif self.moves[3] == True:
+        elif self.actions[3] == True:
             self.action = 3
-        elif self.moves[3] == True:
+        elif self.actions[3] == True:
             self.action = 3
         
 
         else:
             self.action = 0
         return self.action
+
+    def listener_start(self):
+        self.listener = keyboard.Listener(on_press=self.on_press,on_release=self.on_release)
+        self.listener.start()
+
+    def listener_stop(self):
+        self.listener = keyboard.Listener(on_press=self.on_press,on_release=self.on_release)
+        self.listener.stop()
+
 
 
 

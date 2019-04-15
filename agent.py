@@ -9,7 +9,7 @@ class HumanAgent():
         self.keyboard_logger = KeyLogger()
 
     def train(self, _obs):
-        self.action = self.keyboard_logger.actions()
+        self.action = self.keyboard_logger.actions_step()
         return self.action
 
 
