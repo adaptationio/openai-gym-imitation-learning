@@ -50,6 +50,7 @@ class KeyLogger():
         if key == keyboard.Key.esc:
             # Stop listener
             return False
+
     def actions(self):
         if self.moves[3] == True and self.moves[2] == True:
             self.action = 4  
@@ -89,6 +90,9 @@ class KeyboardController():
         self.keyboard.type(string)
 
 
+test = KeyLogger()
+moose = True
+while moose:
+    tester = moose
 
-    
-    
+
