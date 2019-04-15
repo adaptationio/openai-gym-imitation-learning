@@ -3,11 +3,10 @@ from pynput.keyboard import Key, Controller
 moves =[False, False]
 
 class KeyLogger():
-    def __init__(self, listener=True, action_space=5, keys=['0','1','2','3','4']):
+    def __init__(self, listener=True, action_space=5, keys=['0','1','2','3','4'], config=None):
         self.moose = "9"
         self.keys = keys
         self.actions = [False] * action_space
-        self.moves = [False, False, False, False, False]
         self.action = 0
         if listener:
             self.listener_start()
@@ -17,9 +16,10 @@ class KeyLogger():
                 key.char))
             self.moose = key
             print(key)
-            for i in range(len(self.keys)):
-                if key.char == str(self.keys[i]):
-                    self.actions[i] = True
+            if key.char:
+                for i in range(len(self.keys)):
+                    if key.char == str(self.keys[i]):
+                        self.actions[i] = True
             
                 
         
@@ -33,9 +33,10 @@ class KeyLogger():
             key))
         #self.moose = ''
         moose = key
-        for i in range(len(self.keys)):
-                if key.char == str(self.keys[i]):
-                    self.actions[i] = False
+        if key.char:
+            for i in range(len(self.keys)):
+                    if key.char == str(self.keys[i]):
+                        self.actions[i] = False
     
         if key == keyboard.Key.esc:
             # Stop listener
@@ -93,5 +94,6 @@ test = KeyLogger()
 moose = True
 while moose:
     tester = moose
+    print(test.actions)
 
 
