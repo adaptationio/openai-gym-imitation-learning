@@ -73,7 +73,7 @@ class Controller_Gym(gym.Env):
         #self.state = self.env.generate_number()
         #self.env.display()
         #print(action)
-        action = self.keyboard_logger.actions()
+        action = self.keyboard_logger.action_step()
         #action = 1
         #self.placement = self.env.placement
         self.next_state, self.reward, self.done, info = self.env.step(action)
