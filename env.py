@@ -4,8 +4,11 @@ import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
 import numpy as np
-from keyboard import KeyboardController, KeyLogger
-from mouse import MouseController, MouseLogger
+#from keyboard import KeyboardController, KeyLogger
+#from mouse import MouseController, MouseLogger
+from utilities import DataGrabber
+import cv2
+import mss
 
 class Imitation(gym.Env):
 
@@ -16,11 +19,13 @@ class Imitation(gym.Env):
         self.reward = None
         self.done = False
         self.state = None
-        self.action_space = self.env.action_space
-        self.observation_space = self.env.observation_space
+        self.action_space = None
+        self.observation_space = None
         self.steps_beyond_done = None
         self.seed()
         self.configure()
+        self.data_grabber = DataGrabber()
+
 
     def __del__(self):
         pass
@@ -33,28 +38,42 @@ class Imitation(gym.Env):
         return [seed]
 
     def step(self, action):
-        self.state = self.env.generate_number()
-        #self.env.display()
-        action = None
-        self.next_state = None
-        self.next_state, self.reward, self.done, info = self.env.step(action)
+        self.action = action
+        self.state = self.data_grabber.get_screen_array(0, 0, 800, 640)
+        self.render()
+        self.data_grabber.get_screen_array(0 ,0 , 800, 640)
+        self.next_state = self.state
+        self.reward = self.get_reward()
+        self.done = self.get_done()
+        return self.next_state, self.reward, self.done
         
         if self.done:
             pass
-        return self.next_state, self.reward, self.done, info
+        return self.next_state, self.reward, self.done, self.info
 
     def reset(self):
-        self.state = None
-        self.done = False
-        return self.state, self.done
+        self.state = self.data_grabber.get_screen_array(0, 0, 800, 640)
+        #self.render()
+        return self.state
 
     def is_game_over(self):
         pass
         return
 
     def render(self, mode="human", close=False):
-
-        pass
-
+        cv2.imshow("OpenCV/Numpy normal", self.state)
+        #cv2.imshow('image',img)
+        #sleep(0.1)
+        cv2.waitKey(25)
         return 
 
+    def get_reward(self):
+        return None
+
+    def get_done(self):
+        return None
+
+test = Imitation()
+test.reset()
+for i in range(100):
+    test.step(None)
